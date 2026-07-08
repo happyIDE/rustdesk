@@ -263,7 +263,7 @@ jobs:
           cargo build --release
           popd
           mkdir -p ./SignOutput
-          mv ./libs/portable/target/release/happyremote-portable-packer.exe ./SignOutput/happyremote-${{ env.VERSION }}-${{ matrix.job.arch }}.exe
+          mv ./target/release/happyremote-portable-packer.exe ./SignOutput/happyremote-${{ env.VERSION }}-${{ matrix.job.arch }}.exe
 
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v2
@@ -272,7 +272,7 @@ jobs:
         if: env.UPLOAD_ARTIFACT == 'true'
         run: |
           pushd ./res/msi
-          python preprocess.py --arp -d ../../rustdesk
+          python preprocess.py --arp --app-name happyremote -d ../../rustdesk
           nuget restore msi.sln
           msbuild msi.sln -p:Configuration=Release -p:Platform=x64 /p:TargetVersion=Windows10
           mv ./Package/bin/x64/Release/en-us/Package.msi ../../SignOutput/happyremote-${{ env.VERSION }}-${{ matrix.job.arch }}.msi
@@ -378,7 +378,7 @@ jobs:
           sed -i 's/branch = "dyn"/branch = "dyn_x86"/g' ./Cargo.toml
           cargo build --features inline,vram,hwcodec --release --bins
           mkdir -p ./Release
-          mv ./target/release/rustdesk.exe ./Release/rustdesk.exe
+          mv ./target/release/happyremote.exe ./Release/happyremote.exe
           curl -LJ -o ./Release/sciter.dll https://github.com/c-smile/sciter-sdk/raw/master/bin.win/x32/sciter.dll
           echo "output_folder=./Release" >> $GITHUB_OUTPUT
           curl -LJ -o ./usbmmidd_v2.zip https://github.com/rustdesk-org/rdev/releases/download/usbmmidd_v2/usbmmidd_v2.zip
@@ -432,7 +432,7 @@ jobs:
           cargo build --release
           popd
           mkdir -p ./SignOutput
-          mv ./libs/portable/target/release/happyremote-portable-packer.exe ./SignOutput/happyremote-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.exe
+          mv ./target/release/happyremote-portable-packer.exe ./SignOutput/happyremote-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.exe
 
       - name: Sign rustdesk self-extracted file
         if: env.UPLOAD_ARTIFACT == 'true' && env.SIGN_BASE_URL != '-2'
