@@ -255,6 +255,9 @@ jobs:
         run: |
           sed -i '/dpiAware/d' res/manifest.xml
           pushd ./libs/portable
+          mkdir -p res
+          cp ../../res/spin.gif res/
+          cp ../../res/label.png res/
           pip3 install -r requirements.txt
           python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/happyremote.exe
           cargo build --release
@@ -421,6 +424,9 @@ jobs:
         run: |
           sed -i '/dpiAware/d' res/manifest.xml
           pushd ./libs/portable
+          mkdir -p res
+          cp ../../res/spin.gif res/
+          cp ../../res/label.png res/
           pip3 install -r requirements.txt
           python3 ./generate.py -f ../../Release/ -o . -e ../../Release/happyremote.exe
           cargo build --release
