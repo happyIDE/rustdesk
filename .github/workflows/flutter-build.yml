@@ -257,9 +257,10 @@ jobs:
           pushd ./libs/portable
           pip3 install -r requirements.txt
           python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/happyremote.exe
+          cargo build --release
           popd
           mkdir -p ./SignOutput
-          mv ./target/release/happyremote-portable-packer.exe ./SignOutput/happyremote-${{ env.VERSION }}-${{ matrix.job.arch }}.exe
+          mv ./libs/portable/target/release/happyremote-portable-packer.exe ./SignOutput/happyremote-${{ env.VERSION }}-${{ matrix.job.arch }}.exe
 
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v2
@@ -422,9 +423,10 @@ jobs:
           pushd ./libs/portable
           pip3 install -r requirements.txt
           python3 ./generate.py -f ../../Release/ -o . -e ../../Release/happyremote.exe
+          cargo build --release
           popd
           mkdir -p ./SignOutput
-          mv ./target/release/happyremote-portable-packer.exe ./SignOutput/happyremote-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.exe
+          mv ./libs/portable/target/release/happyremote-portable-packer.exe ./SignOutput/happyremote-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.exe
 
       - name: Sign rustdesk self-extracted file
         if: env.UPLOAD_ARTIFACT == 'true' && env.SIGN_BASE_URL != '-2'
