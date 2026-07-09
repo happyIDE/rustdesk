@@ -538,9 +538,9 @@ Future<List<TToggleMenu>> toolbarCursor(
         onChanged: (v) async {
           if (v == null) return;
           await bind.sessionToggleOption(sessionId: sessionId, value: option);
-          value = bind.sessionGetToggleOptionSync(
+          var finalValue = bind.sessionGetToggleOptionSync(
               sessionId: sessionId, arg: option);
-          showCursorLockState.value = value ?? false;
+          showCursorLockState.value = finalValue ?? false;
           if (!showCursorEnabled) {
             await bind.sessionToggleOption(
                 sessionId: sessionId, value: showCursorOption);
